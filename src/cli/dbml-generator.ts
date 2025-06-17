@@ -2,8 +2,8 @@ import { GeneratorOptions } from '@prisma/generator-helper';
 import { parseEnvValue } from '@prisma/internals';
 import { promises } from 'fs';
 import { join } from 'path';
-import { generateDBMLSchema } from '../generator/dbml';
-import { getProjectOptions } from '../generator/project';
+import { generateDBMLSchema } from '../generator/dbml.js';
+import { getProjectOptions } from '../generator/project.js';
 
 const { mkdir, writeFile } = promises;
 

@@ -1,6 +1,7 @@
-import { DBMLKeywords, PrismaScalars } from './../keywords';
+import { DBMLKeywords, PrismaScalars, DBML_KEYWORDS } from './../keywords.js';
 import { DMMF } from '@prisma/generator-helper';
-import { getModelByType } from './model';
+import { getModelByType } from './model.js';
+import { DBML_PREFIX } from 'index.js';
 
 export function generateTables(
   models: DMMF.Model[],
@@ -23,7 +24,7 @@ export function generateTables(
         includeRelationFields,
       ) +
       generateTableIndexes(model) +
-      generateTableDocumentation(model) +
+      // generateTableDocumentation(model) +
       '\n}'
     );
   });
@@ -34,9 +35,8 @@ const generateTableIndexes = (model: DMMF.Model): string => {
   const hasIdFields = primaryFields && primaryFields.length > 0;
   const hasCompositeUniqueIndex = hasCompositeUniqueIndices(model.uniqueFields);
   return hasIdFields || hasCompositeUniqueIndex
-    ? `\n\n  ${DBMLKeywords.Indexes} {\n${generateTableBlockId(primaryFields)}${
-        hasIdFields && hasCompositeUniqueIndex ? '\n' : ''
-      }${generateTableCompositeUniqueIndex(model.uniqueFields)}\n  }`
+    ? `\n\n  ${DBMLKeywords.Indexes} {\n${generateTableBlockId(primaryFields)}${hasIdFields && hasCompositeUniqueIndex ? '\n' : ''
+    }${generateTableCompositeUniqueIndex(model.uniqueFields)}\n  }`
     : '';
 };
 
@@ -88,7 +88,9 @@ const generateFields = (
           ? `${relationToName}[]`
           : relationToName;
 
-      return `  ${field.name} ${fieldType}${generateColumnDefinition(field)}`;
+      const safeName = DBML_KEYWORDS.includes(field.name) ? DBML_PREFIX + field.name : field.name;
+
+      return `  ${safeName} ${fieldType}${generateColumnDefinition(field)}`;
     })
     .join('\n');
 };

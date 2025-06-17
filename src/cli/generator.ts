@@ -1,6 +1,6 @@
 import { generatorHandler } from '@prisma/generator-helper';
 
-import { generate } from './dbml-generator';
+import { generate } from './dbml-generator.js';
 
 generatorHandler({
   onManifest: () => ({

@@ -1,5 +1,5 @@
 import { DMMF } from '@prisma/generator-helper';
-import { getModelByType } from './model';
+import { getModelByType } from './model.js';
 
 export const oneToOne = '-';
 export const oneToMany = '<';

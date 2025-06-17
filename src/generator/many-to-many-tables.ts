@@ -1,4 +1,4 @@
-import { getModelByType } from './model';
+import { getModelByType } from './model.js';
 import { DMMF } from '@prisma/generator-helper';
 
 export function generateManyToManyTables(
